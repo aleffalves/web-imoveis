@@ -1,1 +1,106 @@
-<p>imovel works!</p>
+<div class="page df.column p_15">
+
+  <div *ngIf="screen == 1">
+    <label class="fs_20 fw_700">Proprietário</label>
+    <form class="m_top_20" [formGroup]="proprietarioForm" (ngSubmit)="submitFormProprietario()">
+        <div class="gap_10">
+          <mat-form-field appearance="outline" [style.width.%]="50">
+            <input matInput placeholder="Nome" formControlName="nome" required>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit" [style.height.px]="35"><mat-icon>done</mat-icon></button>
+        </div>
+    </form>
+  </div>
+
+  <div *ngIf="screen == 2 ">
+    <label class="fs_20 fw_700">Imóvel</label>
+    <form class="m_top_20" [formGroup]="imovelForm" (ngSubmit)="submitFormImovel()">
+
+      <div class="gap_10">
+        <mat-form-field appearance="outline" [style.width.%]="50">
+          <input matInput placeholder="Nome" formControlName="nome" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" [style.width.%]="25">
+          <mat-select placeholder="Tipo" formControlName="tipo" required>
+            <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="gap_10">
+        <mat-form-field appearance="outline" [style.width.%]="30">
+          <input matInput type="number" placeholder="Valor" formControlName="valor" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" [style.width.%]="30">
+          <input matInput type="number" placeholder="Condomínio" formControlName="condominio">
+        </mat-form-field>
+      </div>
+
+      <div class="gap_10">
+        <mat-form-field appearance="outline" [style.width.%]="25">
+          <input matInput type="number" placeholder="Quartos" formControlName="quartos">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" [style.width.%]="25">
+          <input matInput type="number" placeholder="Banheiros" formControlName="banheiros">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" [style.width.%]="25">
+          <input matInput type="number" placeholder="Área" formControlName="area">
+        </mat-form-field>
+      </div>
+
+      <div class="gap_10 f_align_center">
+        <mat-button-toggle-group (change)="onChangeToggle($event)"
+                                 [ngStyle]="{ 'border-color': imovelForm.value.aluguel == '' && imovelForm.value.venda == '' ? 'red' : '' }">
+          <mat-button-toggle value="aluguel" [style.width.px]="100">Aluguel</mat-button-toggle>
+          <mat-button-toggle value="venda" [style.width.px]="100">Venda</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-checkbox formControlName="mobiliado">Mobiliado</mat-checkbox>
+      </div>
+
+      <div formGroupName="endereco" class="m_top_20 df.column">
+        <label class="fs_16 fw_600">Endereço</label>
+        <div class="gap_10 m_top_10">
+          <mat-form-field appearance="outline" [style.width.%]="60">
+            <input matInput placeholder="Rua" formControlName="rua" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" [style.width.%]="15">
+            <input matInput type="number" placeholder="N°" formControlName="numero" required>
+          </mat-form-field>
+        </div>
+
+        <div class="gap_10">
+          <mat-form-field appearance="outline" [style.width.%]="40">
+            <input matInput placeholder="Bairro" formControlName="bairro" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" [style.width.%]="30">
+            <input matInput placeholder="Cidade" formControlName="cidade" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" [style.width.%]="10">
+            <input matInput placeholder="UF" formControlName="uf" required>
+          </mat-form-field>
+        </div>
+
+        <div class="gap_10">
+          <mat-form-field appearance="outline" [style.width.%]="30">
+            <input matInput  placeholder="Cep" formControlName="cep" maxlength="8" (keyup)="buscarCep()" required>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="m_top_20 gap_10">
+        <button [style.background]="'#e58e8e'" [style.height.px]="35" [style.width.px]="100" mat-raised-button color="primary" (click)="cancel()" routerLink="/home">Cancelar</button>
+        <button [style.background]="'#b4e198'" [style.height.px]="35" [style.width.px]="100" c mat-raised-button color="primary" type="submit">Cadastrar</button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
