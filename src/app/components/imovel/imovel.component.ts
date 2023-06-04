@@ -162,6 +162,7 @@ export class ImovelComponent implements OnInit {
       this.goToImoveis()
     }else{
       this.proprietarioService.deletarProprietario(this.proprietarioForm.value).subscribe();
+      this.goToHome()
     }
 
   }
