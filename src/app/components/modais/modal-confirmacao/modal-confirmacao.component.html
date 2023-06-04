@@ -1,0 +1,11 @@
+<div class="df_column p_15">
+  <h4>{{ txtEnunciado }}</h4>
+  <h6><small>{{ txtSmall }}</small></h6>
+
+  <div [style.width.%]="100" class="gap_10">
+    <button [style.width.%]="50" [style.background]="'#e58e8e'" (click)="retornar(false)">{{ txtNegativo }}</button>
+    <button [style.width.%]="50" [style.background]="'#b4e198'" (click)="retornar(true)">{{ txtPositivo }}</button>
+  </div>
+</div>
+
+

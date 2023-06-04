@@ -6,7 +6,8 @@ import { Tipo } from 'src/app/enums/tipo-enum.enum';
 import { Endereco } from 'src/app/models/endereco.model';
 import { ProprietarioService } from 'src/app/services/proprietario.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Imovel } from 'src/app/models/imovel.model';
 
 @Component({
   selector: 'app-imovel',
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class ImovelComponent implements OnInit {
 
+  imovel : Imovel = new Imovel();
   imovelForm!: FormGroup;
   proprietarioForm!: FormGroup;
   tipos  = Object.values(Tipo)
@@ -26,10 +28,13 @@ export class ImovelComponent implements OnInit {
     private imovelService : ImovelService,
     private proprietarioService : ProprietarioService,
     private _snackBar: MatSnackBar,
+    private route : ActivatedRoute,
     private router : Router
   ) { }
 
   ngOnInit(): void {
+    let state = this.route.snapshot.paramMap.get('imovel')
+    if(state)this.imovel = JSON.parse(state)
     this.createForm()
   }
 
@@ -64,6 +69,11 @@ export class ImovelComponent implements OnInit {
       nome: ['', Validators.required],
       imovelId: []
     })
+
+    if(this.imovel?.id){
+      this.imovelForm.setValue(this.imovel)
+      this.screen = 2
+    }
   }
 
   submitFormProprietario(){
@@ -86,16 +96,34 @@ export class ImovelComponent implements OnInit {
     if(!this.imovelForm.valid){
       this._snackBar.open('Preencher campos requeridos', 'OK');
     }else{
-      this.imovelService.salvarImovel(this.imovelForm.value).subscribe({
-        next : (imovel) => {
-          this._snackBar.open('Cadastro realizado com sucesso.', 'OK');
-          this.proprietarioForm.get('imovelId')?.setValue(imovel.id)
-          this.atualizarProprietario()
-          this.goToHome()
-        },
-        error : (error) => console.error(error)
-      })
+      if(this.imovel?.id){
+        this.editarImovel()
+      }else{
+        this.salvarImovel()
+      }
     }
+  }
+
+  salvarImovel(){
+    this.imovelService.salvarImovel(this.imovelForm.value).subscribe({
+      next : (imovel) => {
+        this._snackBar.open('Cadastro realizado com sucesso.', 'OK');
+        this.proprietarioForm.get('imovelId')?.setValue(imovel.id)
+        this.atualizarProprietario()
+        this.goToHome()
+      },
+      error : (error) => console.error(error)
+    })
+  }
+
+  editarImovel(){
+    this.imovelService.atualizarImovel(this.imovelForm.value).subscribe({
+      next : () => {
+        this._snackBar.open('Imovel atualizado com sucesso.', 'OK');
+        this.goToImoveis()
+      },
+      error : (error) => console.error(error)
+    })
   }
 
   onChangeToggle(event: MatButtonToggleChange){
@@ -116,7 +144,7 @@ export class ImovelComponent implements OnInit {
           this.imovelForm.get('endereco.rua')?.setValue(endereco.logradouro ? endereco.logradouro : '')
           this.imovelForm.get('endereco.bairro')?.setValue(endereco.bairro ? endereco.bairro : '')
           this.imovelForm.get('endereco.cidade')?.setValue(endereco.localidade ? endereco.localidade : '')
-          this.imovelForm.get('endereco.uf')?.setValue(endereco.localidade ? endereco.localidade : '')
+          this.imovelForm.get('endereco.uf')?.setValue(endereco.localidade ? endereco.uf : '')
         },
         error : (error) => console.error(error)
       })
@@ -130,11 +158,20 @@ export class ImovelComponent implements OnInit {
   }
 
   cancel(){
-    this.proprietarioService.deletarProprietario(this.proprietarioForm.value).subscribe();
+    if(this.imovel?.id){
+      this.goToImoveis()
+    }else{
+      this.proprietarioService.deletarProprietario(this.proprietarioForm.value).subscribe();
+    }
+
   }
 
   goToHome() {
     this.router.navigate(['home']);
+  }
+
+  goToImoveis(){
+    this.router.navigate(['imoveis'])
   }
 
 

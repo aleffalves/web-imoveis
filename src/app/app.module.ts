@@ -18,6 +18,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ListagemImoveisComponent } from './components/listagem-imoveis/listagem-imoveis.component';
+import { MatTableModule } from '@angular/material/table';
+import { ModalConfirmacaoComponent } from './components/modais/modal-confirmacao/modal-confirmacao.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalImovelDetalhesComponent } from './components/modais/modal-imovel-detalhes/modal-imovel-detalhes.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,8 @@ import { ListagemImoveisComponent } from './components/listagem-imoveis/listagem
     HomeComponent,
     ImovelComponent,
     ListagemImoveisComponent,
+    ModalConfirmacaoComponent,
+    ModalImovelDetalhesComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,9 @@ import { ListagemImoveisComponent } from './components/listagem-imoveis/listagem
     MatNativeDateModule,
     MatButtonToggleModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

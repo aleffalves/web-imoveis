@@ -455,8 +455,7 @@ input.mat-input-element {
   width: 1px;
   white-space: nowrap;
   outline: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none; }
+ }
 
 .cdk-overlay-container, .cdk-global-overlay-wrapper {
   pointer-events: none;

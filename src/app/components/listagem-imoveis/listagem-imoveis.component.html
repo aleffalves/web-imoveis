@@ -1,1 +1,65 @@
-<p>listagem-imoveis works!</p>
+<div>
+  <div class="df_row gap_10" style="justify-content: center;">
+    <mat-button-toggle-group [style.width.%]="50" class="m_top_20" [(ngModel)]="filtro"  (change)="onChangeToggle()">
+      <mat-button-toggle [style.width.%]="50" value="comprar">COMPRAR</mat-button-toggle>
+      <mat-button-toggle [style.width.%]="50" value="alocar">ALOCAR</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <table class="m_top_10" mat-table [dataSource]="imoveis">
+
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef>Açoes</th>
+      <td mat-cell *matCellDef="let element; let i = index ">
+        <div class="df_row gap_10">
+          <button (click)="editar(element)"><mat-icon>edit</mat-icon></button>
+          <button (click)="detalhes(element)"><mat-icon>density_small</mat-icon></button>
+          <button (click)="deletar(element, i)"><mat-icon>delete</mat-icon></button>
+        </div>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="valor">
+      <th mat-header-cell *matHeaderCellDef> Valor </th>
+      <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="condominio">
+      <th mat-header-cell *matHeaderCellDef> Valor Condominio </th>
+      <td mat-cell *matCellDef="let element"> {{element.condominio}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quartos">
+      <th mat-header-cell *matHeaderCellDef> Qtd. Quartos </th>
+      <td mat-cell *matCellDef="let element"> {{element.quartos}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="banheiros">
+      <th mat-header-cell *matHeaderCellDef> Qtd. Banheiros </th>
+      <td mat-cell *matCellDef="let element"> {{element.banheiros}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mobiliado">
+      <th mat-header-cell *matHeaderCellDef> Mobiliado </th>
+      <td mat-cell *matCellDef="let element"> {{element.mobiliado ? 'Sim' : 'Não'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
+
+
+
